@@ -1,0 +1,498 @@
+{% extends 'usercenter_base.html' %}
+{% load staticfiles %}
+{% block titile %}我的工具——淘客在线网{% endblock %}
+{% block custom_bread %}
+    <section>
+        <div class="wp">
+            <ul class="crumbs">
+                <li><a href="{% url 'index' %}">首页</a>></li>
+                <li><a href="{% url 'users:user_info' %}">个人中心</a>></li>
+                <li>我的工具</li>
+            </ul>
+        </div>
+    </section>
+{% endblock %}
+{% block custom_css %}
+    <style>
+        #title_all_text {
+            width: 900px;
+            height: 400px;
+            font-size: 14px;
+            font-family: Arial;
+        }
+
+        .textAreaWithLines {
+            font-family: Arial;
+            border: 1px solid #aaa;
+
+        }
+
+        .textAreaWithLines textarea, .textAreaWithLines div {
+            border: 0px;
+            line-height: 120%;
+            font-size: 14px;
+        }
+
+        .lineObj {
+            color: #C77405;
+        }
+
+        #branche_in {
+            width: 410px;
+            height: 227px;
+            font-size: 14px;
+            font-family: Arial;
+        }
+    </style>>
+
+{% endblock %}
+
+{% block left_content %}
+
+
+
+    <section>
+    <div class="wp list personal_list">
+    <div class="left">
+        <ul>
+            <li><a href="{% url 'users:origindata' %}">最新数据包</a></li>
+
+            <li><a href="{% url 'users:my_data' %}">我的数据包</a></li>
+
+            <li><a href="{% url 'users:my_order' %}">服务记录</a></li>
+            <li><a href="{% url 'users:my_buy' %}">我的购买</a></li>
+
+            <li class="active2"><a href="{% url 'users:tool' %}">我的工具</a></li>
+            <li><a href="{% url 'users:my_team' %}">我的团队</a></li>
+
+            <li><a href="{% url 'users:mycourse' %}">我的课程</a></li>
+            <li><a href="{% url 'users:myfav_org' %}">我的收藏</a></li>
+            <li><a href="{% url 'users:user_info' %}">个人信息</a></li>
+
+            <li><a href="{% url 'users:mymessage' %}" style="position: relative;">我的消息</a></li>
+        </ul>
+    </div>
+{% endblock %}
+
+
+{% block right_content %}
+    <div class="right">
+        <div class="personal_des Releasecont">
+            <div class="head">
+                <h1>我的工具 <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=2755304662&site=qq&menu=yes"><img
+                        border="0" src="{% static 'img/qq.png' %}" alt="点击咨询" title="点击咨询"/></a></h1>
+            </div>
+        </div>
+        <div class="personal_des permessage">
+
+
+            <div class="left companyright">
+                <div class="head" style="background: green">提交数据包制作请求</div>
+                <form class="rightform" id="jsStayForm" style="background: gainsboro">
+                    <div>
+                        <img src="{% static 'images/rightform1.png' %}"/>
+                        <input type="text" name="goodurl" id="companyName" placeholder="输入链接" maxlength="250"/>
+                    </div>
+                    <div>
+                        <img src="{% static 'images/rightform2.png' %}"/>
+                        <input type="text" name="goodaddprice" id="companyMobile" placeholder="商品加价"/>
+                    </div>
+                    <div>
+                        <img src="{% static 'images/rightform3.png' %}"/>
+                        <input type="text" name="goodtitle" id="companyAddress" placeholder="商品标题" maxlength="50"/>
+                    </div>
+                    <p class="error company-tips" id="jsCompanyTips"></p>
+                    <input class="btn" type="text" id="jsStayBtn" value="立即提交 >"/>
+                    {% csrf_token %}
+                </form>
+            </div>
+
+
+            {#            设置获取标题工具#}
+            <div class="left companyright">
+                <div class="head" style="background: green">获取关键字列表</div>
+                <form class="rightform" id="jsStayForm_gettitle" style="background: gainsboro">
+                    <div>
+                        <input type="text" name="title_keyword" id="title_keyword" placeholder="请输入标题关键字"
+                               maxlength="25"/>
+                    </div>
+
+                    <p class="error company-tips" id="jsCompanyTips_gettitle"></p>
+
+
+                    <select name="" id="good_type">
+                        <option value="母婴用品__玩具&童车&益智&积木&模型">母婴用品__玩具&童车&益智&积木&模型</option>
+                        <option value="女装">女装</option>
+                    </select>
+
+
+                    <input class="btn" type="text" id="jsStayBtn_gettitle" value="立即提交 >"/>
+
+
+                    请耐心等待10-20s
+
+                    {% csrf_token %}
+                </form>
+            </div>
+
+
+            {#            标题处理工具#}
+            <div class="left companyright">
+                <div class="head" style="background: green">标题处理工具</div>
+                <form class="rightform" id="" style="background: gainsboro">
+                    <div>
+                        <input type="text" name="keyword_repalce_q" id="keyword_repalce_q" placeholder="替换前"
+                               maxlength="25"/>
+                    </div>
+
+                    <div>
+                        <input type="text" name="keyword_repalce_h" id="keyword_repalce_h" placeholder="替换后"
+                               maxlength="25"/>
+                    </div>
+
+                    <input class="btn" type="text" id="jsStayBtn_replace" value="自定义替换 >"/>
+                    {% csrf_token %}
+                    <input class="btn" type="text" id="jsStayBtn_replace_select_branch" value="删除所有品牌"/>
+                </form>
+
+            </div>
+
+
+            {#            设置分裂工具#}
+            <div class="left companyright">
+                <div class="head" style="background: green">裂变数据包</div>
+                <form class="rightform" id="jsStayForm_data_csv" style="background: gainsboro">
+                    <input style="height: 20px;" type="file" name="data_csv" id="file_upload">
+
+
+                    <p class="error company-tips" id="jsCompanyTips_data_csv"></p>
+
+
+                    <input type="text" class="btn" onclick="FileUpload()" value="立即提交 >"/>
+
+
+                    <input style="height: 24px;width: 205px" type="text" name="buy_num" id="buy_num"
+                           placeholder="剩余使用次数：{{ liebian_mount_all }}" maxlength="1"
+                           onkeyup="this.value=this.value.replace(/\D/g,'')"
+                           onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
+
+
+                    <input class="btn" type="text" value="充值次数" onclick="javascript:;" id="buy">
+
+
+                    {#                    <a target="_blank" rel="nofollow" href="https://item.taobao.com/item.htm?id=546758188135"#}
+                    {#                       style="color: red">点击充值裂变工具</a>#}
+
+
+                    {% csrf_token %}
+                </form>
+
+            </div>
+
+
+            <form method="post" name="myform">
+                <table border="0" width="925">
+                    <tr>
+                        >
+
+                        <td width="30%">
+                            <select id="branch_all_distinct" style="WIDTH:100%" multiple name="list1" size="12"
+                                    ondblclick="moveOption(document.myform.list1, document.myform.list2)">
+
+                            </select>
+                        </td>
+                        <td width="10%" align="center">
+                            <input type="button" value="添加"
+                                   onclick="moveOption(document.myform.list1, document.myform.list2)"><br/>
+                            <br/>
+                            <input type="button" value="删除"
+                                   onclick="moveOption(document.myform.list2, document.myform.list1)">
+                        </td>
+                        <td width="30%">
+                            <select style="WIDTH:100%" multiple name="list2" size="12"
+                                    ondblclick="moveOption(document.myform.list2, document.myform.list1)">
+                            </select>
+                        </td>
+
+                        <td width="30%">
+                            <textarea id="branche_in" value="" placeholder="标题中包含品牌及数量"></textarea>
+                        </td>
+
+                    </tr>
+
+                    {#                <tr>#}
+                    {#                       已选中品牌：<input type="text" name="city" size="100">#}
+                    {#                </tr>#}
+
+
+                    </tr>
+                </table>
+
+
+            </form>
+
+
+            <textarea id="title_all_text" value="" placeholder="请根据文本框内容进行适当修改"></textarea>
+
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block custom_js %}
+
+
+    <script type="text/javascript">
+
+
+        var lineObjOffsetTop = 2;
+
+        function createTextAreaWithLines(id) {
+            var el = document.createElement('DIV');
+            var ta = document.getElementById(id);
+            ta.parentNode.insertBefore(el, ta);
+            el.appendChild(ta);
+
+            el.className = 'textAreaWithLines';
+            el.style.width = (ta.offsetWidth + 30) + 'px';
+            ta.style.position = 'absolute';
+            ta.style.left = '30px';
+            el.style.height = (ta.offsetHeight + 2) + 'px';
+            el.style.overflow = 'hidden';
+            el.style.position = 'relative';
+            el.style.width = (ta.offsetWidth + 30) + 'px';
+            var lineObj = document.createElement('DIV');
+            lineObj.style.position = 'absolute';
+            lineObj.style.top = lineObjOffsetTop + 'px';
+            lineObj.style.left = '0px';
+            lineObj.style.width = '27px';
+            el.insertBefore(lineObj, ta);
+            lineObj.style.textAlign = 'right';
+            lineObj.className = 'lineObj';
+            var string = '';
+            for (var no = 1; no < 1000; no++) {
+                if (string.length > 0) string = string + '<br>';
+                string = string + no;
+            }
+
+            ta.onkeydown = function () {
+                positionLineObj(lineObj, ta);
+            };
+            ta.onmousedown = function () {
+                positionLineObj(lineObj, ta);
+            };
+            ta.onscroll = function () {
+                positionLineObj(lineObj, ta);
+            };
+            ta.onblur = function () {
+                positionLineObj(lineObj, ta);
+            };
+            ta.onfocus = function () {
+                positionLineObj(lineObj, ta);
+            };
+            ta.onmouseover = function () {
+                positionLineObj(lineObj, ta);
+            };
+            lineObj.innerHTML = string;
+
+        }
+
+        function positionLineObj(obj, ta) {
+            obj.style.top = (ta.scrollTop * -1 + lineObjOffsetTop) + 'px';
+        }
+
+
+        createTextAreaWithLines('title_all_text');
+    </script>
+
+    <script type="text/javascript">
+
+
+        $("#jsStayBtn_replace").click(function () {
+
+            var q = document.getElementById("keyword_repalce_q").value;
+            var h = document.getElementById("keyword_repalce_h").value;
+
+
+            var reg = new RegExp(q, "g"); //创建正则RegExp对象
+            var stringObj = document.getElementById("title_all_text").value;
+            var newstr = stringObj.replace(reg, h);
+
+            document.getElementById("title_all_text").value = newstr;
+
+
+        })
+
+
+        $("#jsStayBtn_replace_select_branch").click(function () {
+
+
+            var aaa = $("select[name='list2']  option  ");
+
+            var h = document.getElementById("keyword_repalce_h").value;
+
+            for (var i = 0; i < aaa.length; i++) {
+                var q = aaa[i].text;
+
+                var reg = new RegExp(q, "g"); //创建正则RegExp对象
+                var stringObj = document.getElementById("title_all_text").value;
+                var newstr = stringObj.replace(reg, h);
+
+                document.getElementById("title_all_text").value = newstr;
+            }
+        })
+
+
+    </script>
+
+    <script type="text/javascript">
+        $(function () {
+            $('#good_type').searchableSelect();
+        });
+    </script>
+
+
+
+
+
+
+    <script language="JavaScript">
+        <!--
+        function moveOption(e1, e2) {
+            try {
+                for (var i = 0; i < e1.options.length; i++) {
+                    if (e1.options[i].selected) {
+                        var e = e1.options[i];
+                        e2.options.add(new Option(e.text, e.value));
+                        e1.remove(i);
+                        ii = i - 1
+                    }
+                }
+                document.myform.city.value = getvalue(document.myform.list2);
+            }
+            catch (e) {
+            }
+        }
+        function getvalue(geto) {
+            var allvalue = "";
+            for (var i = 0; i < geto.options.length; i++) {
+                allvalue += geto.options[i].value + ",";
+            }
+            return allvalue;
+        }
+
+        //-->
+    </script>
+
+
+
+
+
+
+
+
+
+    <script>
+
+
+        ;
+        !function () {
+
+
+            var buy_num = $("#buy_num").val();
+            $('#buy').on('click', function () {
+                var buy_num = $("#buy_num").val();
+
+                if (buy_num.length==0){
+
+
+
+                    layer.open({
+                    type: 1
+                    ,
+                    title: false //不显示标题栏
+                    ,
+                    closeBtn: false
+                    ,
+                    area: '420px;'
+                    ,
+                    shade: 0.8
+                    ,
+                    id: 'LAY_layuipro' //设定一个id，防止重复弹出
+                    ,
+                    resize: true
+                    // ,btn: [ '完成支付','残忍离去']
+
+                    ,
+                    btn: ['已扫码完成支付']
+                    ,
+                    btnAlign: 'c'
+                    ,
+                    moveType: 1 //拖拽模式，0或者1
+                    ,
+                    content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #e2e2e2; font-weight: 300;">你知道吗？亲！<br>每次分裂工具包可以给你带来10+订单<br>更有团队计划等着你！<br><br>开始赚钱钱 ^_^</div><img   width="200" src="{% static 'images/qr/alipay_' %}' + '200.jpg"><img   width="200" src="{% static 'images/qr/wechat_' %}' + '200.jpg">'
+                    ,
+                    success: function (layero) {
+                        var btn = layero.find('.layui-layer-btn');
+
+{#                        btn.find('.layui-layer-btn0').attr({#}
+{#                            href: 'http://www.layui.com/'#}
+{#                            ,target: '_blank'#}
+{#                        });#}
+                    }
+                });
+
+
+                }
+                else {
+
+
+                layer.open({
+                    type: 1
+                    ,
+                    title: false //不显示标题栏
+                    ,
+                    closeBtn: false
+                    ,
+                    area: '420px;'
+                    ,
+                    shade: 0.8
+                    ,
+                    id: 'LAY_layuipro' //设定一个id，防止重复弹出
+                    ,
+                    resize: true
+                    // ,btn: [ '完成支付','残忍离去']
+
+                    ,
+                    btn: ['已扫码完成支付']
+                    ,
+                    btnAlign: 'c'
+                    ,
+                    moveType: 1 //拖拽模式，0或者1
+                    ,
+                    content: '<div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #e2e2e2; font-weight: 300;">你知道吗？亲！<br>每次分裂工具包可以给你带来10+订单<br>更有团队计划等着你！<br><br>开始赚钱钱 ^_^</div><img   width="200" src="{% static 'images/qr/alipay_' %}' + buy_num + '00.jpg"><img   width="200" src="{% static 'images/qr/wechat_' %}' + buy_num + '00.jpg">'
+                    ,
+                    success: function (layero) {
+                        var btn = layero.find('.layui-layer-btn');
+
+{#                        btn.find('.layui-layer-btn0').attr({#}
+{#                            href: 'http://www.layui.com/'#}
+{#                            ,target: '_blank'#}
+{#                        });#}
+                    }
+                });
+
+                }
+
+
+            });
+
+
+        }();
+
+
+    </script>
+
+
+{% endblock %}
+

@@ -1,0 +1,109 @@
+{% extends 'usercenter_base.html' %}
+{% block titile %}我的数据包——淘客在线网{% endblock %}
+{% load staticfiles %}
+{% block custom_bread %}
+    <section>
+        <div class="wp">
+            <ul  class="crumbs">
+                <li><a href="{% url 'index' %}">首页</a>></li>
+                <li><a href="{% url 'users:user_info' %}">个人中心</a>></li>
+                <li>我的数据包</li>
+            </ul>
+        </div>
+    </section>
+{% endblock %}
+{% block left_content %}
+<section>
+	<div class="wp list personal_list">
+	<div class="left">
+        <ul>
+            <li ><a href="{% url 'users:origindata' %}">最新数据包</a></li>
+
+            <li class="active2"><a href="{% url 'users:my_data' %}">我的数据包</a></li>
+
+              <li ><a href="{% url 'users:my_order' %}">服务记录</a></li>
+            <li ><a href="{% url 'users:my_buy' %}">我的购买</a></li>
+
+            <li ><a href="{% url 'users:tool' %}">我的工具</a></li>
+            <li ><a href="{% url 'users:my_team' %}">我的团队</a></li>
+
+            <li ><a href="{% url 'users:mycourse' %}">我的课程</a></li>
+            <li ><a href="{% url 'users:myfav_org' %}">我的收藏</a></li>
+            <li ><a href="{% url 'users:user_info' %}">个人信息</a></li>
+
+            <li > <a href="{% url 'users:mymessage' %}" style="position: relative;">我的消息</a></li>
+        </ul>
+	</div>
+{% endblock %}
+
+{% block right_content%}
+     <div class="right" >
+		<div class="personal_des Releasecont">
+			<div class="head">
+				<h1>我的数据包——请将替换之前上传的文件名 <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=2755304662&site=qq&menu=yes"><img border="0" src="{% static 'img/qq.png' %}" alt="点击咨询" title="点击咨询"/></a></h1>
+			</div>
+		</div>
+		<div class="personal_des permessage">
+			<div class="companycenter">
+				<div class="group_list brief">
+
+
+<div >
+<table style="width: 100%">
+	<thead>
+		<tr>
+			<th>商家编码</th>
+			<th>添加时间</th>
+			<th>下载地址</th>
+		</tr>
+	</thead>
+	<tbody>
+    {% for LieBianData in LieBianData_all.object_list %}
+		<tr>
+
+			<td style="text-align:center;vertical-align:middle;">{{ LieBianData.good_code }}</td>
+            <td style="text-align:center;vertical-align:middle;">  {{ LieBianData.add_time }}</td>
+			<td style="text-align:center;vertical-align:middle;"><a href="{{ MEDIA_URL }}{{ LieBianData.download }}" class="downcode" target="_blank" download="" data-id="274" title="">下载</a></td>
+		</tr>
+    {% endfor %}
+	</tbody>
+</table>
+
+
+	<div class="pageturn pagerright">
+                <ul class="pagelist">
+                    {% if LieBianData_all.has_previous %}
+                        <li class="long"><a href="?{{ LieBianData_all.previous_page_number.querystring }}">上一页</a></li>
+                    {% endif %}
+
+                    {% for page in LieBianData_all.pages %}
+                        {% if page %}
+                            {% ifequal page LieBianData_all.number %}
+                                <li class="active"><a href="?{{ page.querystring }}">{{ page }}</a></li>
+                            {% else %}
+                                <li><a href="?{{ page.querystring }}" class="page">{{ page }}</a></li>
+                            {% endifequal %}
+                        {% else %}
+                           <li><a href="" class="none">...</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if LieBianData_all.has_next %}
+                        <li class="long"><a href="?{{ LieBianData_all.next_page_number.querystring }}">下一页</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+</div>
+
+
+
+
+
+
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+

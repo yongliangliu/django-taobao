@@ -1,0 +1,114 @@
+{% extends 'usercenter_base.html' %}
+{% block title %}我的消息——淘客在线网{% endblock %}
+{% load staticfiles %}
+{% block custom_bread %}
+    <section>
+        <div class="wp">
+            <ul  class="crumbs">
+                <li><a href="{% url 'index' %}">首页</a>></li>
+                <li><a href="{% url 'users:user_info' %}">个人中心</a>></li>
+                <li>我的消息</li>
+            </ul>
+        </div>
+    </section>
+{% endblock %}
+{% block left_content %}
+<section>
+	<div class="wp list personal_list">
+	<div class="left">
+        <ul>
+            <li ><a href="{% url 'users:origindata' %}">最新数据包</a></li>
+
+            <li ><a href="{% url 'users:my_data' %}">我的数据包</a></li>
+
+              <li ><a href="{% url 'users:my_order' %}">服务记录</a></li>
+            <li ><a href="{% url 'users:my_buy' %}">我的购买</a></li>
+
+            <li ><a href="{% url 'users:tool' %}">我的工具</a></li>
+            <li ><a href="{% url 'users:my_team' %}">我的团队</a></li>
+
+            <li ><a href="{% url 'users:mycourse' %}">我的课程</a></li>
+            <li ><a href="{% url 'users:myfav_org' %}">我的收藏</a></li>
+            <li ><a href="{% url 'users:user_info' %}">个人信息</a></li>
+
+            <li class="active2"> <a href="{% url 'users:mymessage' %}" style="position: relative;">我的消息</a></li>
+        </ul>
+	</div>
+{% endblock %}
+
+
+{% block right_content%}
+     <div class="right" >
+		<div class="personal_des Releasecont">
+			<div class="head">
+				<h1>我的消息 <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=2755304662&site=qq&menu=yes"><img border="0" src="{% static 'img/qq.png' %}" alt="点击咨询" title="点击咨询"/></a></h1>
+			</div>
+		</div>
+		<div class="personal_des permessage">
+			<div class="companycenter">
+				<div class="group_list brief">
+
+
+<div >
+<table style="width: 100%">
+	<thead>
+		<tr>
+			<th>收到时间</th>
+            <th>来自</th>
+            <th>消息</th>
+
+
+
+		</tr>
+	</thead>
+	<tbody>
+    {% for message in messages.object_list %}
+		<tr>
+
+			<td style="text-align:center;vertical-align:middle;width:20%">{{ message.add_time }}</td>
+            <td style="text-align:center;vertical-align:middle;width:15%">系统管理员</td>
+            <td style="text-align:left;vertical-align:middle;width:65%">{{ message.message }}</td>
+
+		</tr>
+    {% endfor %}
+	</tbody>
+</table>
+
+
+	<div class="pageturn pagerright">
+                <ul class="pagelist">
+                    {% if messages.has_previous %}
+                        <li class="long"><a href="?{{ messages.previous_page_number.querystring }}">上一页</a></li>
+                    {% endif %}
+
+                    {% for page in messages.pages %}
+                        {% if page %}
+                            {% ifequal page messages.number %}
+                                <li class="active"><a href="?{{ page.querystring }}">{{ page }}</a></li>
+                            {% else %}
+                                <li><a href="?{{ page.querystring }}" class="page">{{ page }}</a></li>
+                            {% endifequal %}
+                        {% else %}
+                           <li><a href="" class="none">...</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if messages.has_next %}
+                        <li class="long"><a href="?{{ messages.next_page_number.querystring }}">下一页</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+</div>
+
+
+
+
+
+
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+

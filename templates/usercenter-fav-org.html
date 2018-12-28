@@ -1,0 +1,86 @@
+{% extends 'usercenter_base.html' %}
+{% block title %}我的收藏——淘客在线网{% endblock %}
+{% load staticfiles %}
+{% block custom_bread %}
+    <section>
+        <div class="wp">
+            <ul  class="crumbs">
+                <li><a href="{% url 'index' %}">首页</a>></li>
+                <li><a href="{% url 'users:user_info' %}">个人中心</a>></li>
+                <li>我的收藏</li>
+            </ul>
+        </div>
+    </section>
+{% endblock %}
+{% block left_content %}
+<section>
+	<div class="wp list personal_list">
+	<div class="left">
+        <ul>
+            <li ><a href="{% url 'users:origindata' %}">最新数据包</a></li>
+
+            <li ><a href="{% url 'users:my_data' %}">我的数据包</a></li>
+
+              <li ><a href="{% url 'users:my_order' %}">服务记录</a></li>
+            <li ><a href="{% url 'users:my_buy' %}">我的购买</a></li>
+
+            <li ><a href="{% url 'users:tool' %}">我的工具</a></li>
+            <li ><a href="{% url 'users:my_team' %}">我的团队</a></li>
+
+            <li ><a href="{% url 'users:mycourse' %}">我的课程</a></li>
+            <li class="active2"><a href="{% url 'users:myfav_org' %}">我的收藏</a></li>
+            <li ><a href="{% url 'users:user_info' %}">个人信息</a></li>
+
+            <li > <a href="{% url 'users:mymessage' %}" style="position: relative;">我的消息</a></li>
+        </ul>
+	</div>
+{% endblock %}
+
+{% block right_content %}
+
+    <div class="right" >
+            <div class="personal_des Releasecont">
+                <div class="head">
+                    <h1>我的收藏 <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=2755304662&site=qq&menu=yes"><img border="0" src="{% static 'img/qq.png' %}" alt="点击咨询" title="点击咨询"/></a></h1>
+                </div>
+
+            </div>
+            <div class="personal_des permessage">
+                <div class="head">
+                    <ul class="tab_header messagehead">
+                        <li class="active"><a href="{% url 'users:myfav_org' %}">课程机构</a> </li>
+                        <li><a href="{% url 'users:myfav_teacher' %}">授课教师 </a></li>
+                        <li><a href="{% url 'users:myfav_course' %}">公开课程</a></li>
+                    </ul>
+                </div>
+                <div class="messagelist">
+                    {% for org in org_list %}
+                        <div class="messages butler_list company company-fav-box">
+                            <dl class="des fr">
+                                <dt>
+                                    <a href="{% url 'org:org_home' org.id %}">
+                                        <img width="160" height="90" src="{{ MEDIA_URL }}{{ org.image }}"/>
+                                    </a>
+                                </dt>
+                                <dd>
+                                    <h1><a href="{% url 'org:org_home' org.id %}">{{ org.name }}</a></h1>
+                                    <div class="pic fl" style="width:auto;">
+
+                                        <img src="{% static 'images/authentication.png"' %}/>
+
+
+                                        <img src="{% static 'images/gold.png' %}"/>
+
+                                    </div>
+                                    <span class="c8 clear">{{ org.address }}</span>
+                                    <div class="delete jsDeleteFav_org" data-favid="{{ org.id }}"></div>
+                                </dd>
+                            </dl>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+{% endblock %}
+
