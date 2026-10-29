@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os,sys
+from mxonline.runtime_config import required_env
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -22,7 +23,7 @@ sys.path.insert(0, os.path.join(BASE_DIR, 'extra_apps'))
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '14j!i&@*1@lwr(&agog-89#(dc8ofg)bhr=!*=t30@79-(^8d3'
+SECRET_KEY = required_env("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -101,10 +102,11 @@ WSGI_APPLICATION = 'mxonline.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'taoker_online',
-        'USER':'root',
-        'PASSWORD':'root',
-        'HOST': 'taoker.online'
+        "NAME": os.environ.get("DJANGO_DB_NAME", "taoker_online"),
+        "USER": required_env("DJANGO_DB_USER"),
+        "PASSWORD": required_env("DJANGO_DB_PASSWORD"),
+        "HOST": os.environ.get("DJANGO_DB_HOST", "127.0.0.1"),
+        "PORT": os.environ.get("DJANGO_DB_PORT", "3306"),
 
         # 'HOST':'127.0.0.1'
     }

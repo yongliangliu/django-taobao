@@ -5,6 +5,8 @@ from users.models import EmailVerfyRecode
 
 
 import smtplib,requests
+import os
+from mxonline.runtime_config import required_env
 from email import encoders
 from email.header import Header
 from email.mime.text import MIMEText
@@ -73,12 +75,14 @@ def _format_addr(s):
 
 
 def send_mail(email_title,email_body,EMAIL_TO):
+    smtp_user = required_env("SMTP_USER")
+    password = required_env("SMTP_PASSWORD")
+    from_addr = os.environ.get("SMTP_FROM") or smtp_user
+    smtp_server = required_env("SMTP_HOST")
+    smtp_port = int(os.environ.get("SMTP_PORT", "465"))
     try:
 
         msg = MIMEText(email_body, 'plain', 'utf-8')
-        from_addr = 'taoker-online@qq.com'
-        password = 'vrfvuxnnblurdega'
-        smtp_server = 'smtp.qq.com'
         to_addr = EMAIL_TO
 
 
@@ -87,9 +91,9 @@ def send_mail(email_title,email_body,EMAIL_TO):
         msg['Subject'] = Header(email_title, 'utf-8').encode()
 
 
-        server = smtplib.SMTP_SSL(smtp_server, 465) # SMTP协议默认端口是25
-        server.set_debuglevel(1)
-        server.login(from_addr, password)
+        server = smtplib.SMTP_SSL(smtp_server, smtp_port, timeout=10) # SMTP协议默认端口是25
+        server.set_debuglevel(0)  # Never log SMTP AUTH or message contents.
+        server.login(smtp_user, password)
         server.sendmail(from_addr, [to_addr], msg.as_string())
         server.quit()
         return 1
@@ -98,11 +102,9 @@ def send_mail(email_title,email_body,EMAIL_TO):
 
 
 def send_wechat(title,body):
-	try:
-		url='http://sc.ftqq.com/SCU3164Tc1c397179e2c62c97c843021d6ad06025800f6227d9df.send?text='+title+'&desp='+body
-		requests.get(url)
-	except:
-		return None
-
-
-
+    send_key = required_env("SERVERCHAN_SEND_KEY")
+    try:
+        url = 'https://sc.ftqq.com/' + send_key + '.send'
+        requests.get(url, params={'text': title, 'desp': body}, timeout=10)
+    except Exception:
+        return None
